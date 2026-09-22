@@ -64,10 +64,11 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, edi
     text = svc.db.texts["main_menu"] if svc.db else "🔎 Найди нужную группу, канал или бота в Telegram."
     text = f"{text}\n\nВыбери раздел:"
 
-    markup = main_menu_markup()
-    admin_btn = admin_markup_note(update.effective_user.id)
-    if admin_btn:
-        markup.inline_keyboard += admin_btn.inline_keyboard
+    buttons = main_menu_markup().inline_keyboard
+    admin_row = admin_markup_note(update.effective_user.id)
+    if admin_row:
+        buttons = buttons + admin_row.inline_keyboard
+    markup = InlineKeyboardMarkup(buttons)
 
     if edit and update.callback_query:
         try:
